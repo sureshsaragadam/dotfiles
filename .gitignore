@@ -1,0 +1,18 @@
+# Ignore caches, logs, and compiled junk
+*.swp
+*.swo
+*.tmp
+*.bak
+*~
+.DS_Store
+
+# Neovim-specific
+.config/nvim/lazy-lock.json
+.config/nvim/plugin/
+.config/nvim/.luarc.json
+
+# Logs or local-only configs
+*.log
+.cache/
+local/
+
