@@ -1,5 +1,0 @@
-[power]
-command=echo "⏻"
-interval=once
-signal=1
-

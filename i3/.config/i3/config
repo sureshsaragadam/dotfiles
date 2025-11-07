@@ -39,8 +39,6 @@ exec --no-startup-id nm-applet
 
 ########### myconfig My CONFIG ###############################  <------------------
 
-# Start volumeicon if not running
-exec_always --no-startup-id sh -c "pgrep -x volumeicon || volumeicon"
 
 # Start blueman-applet if not running
 exec --no-startup-id sh -c "pgrep -x blueman-applet || blueman-applet"
@@ -57,6 +55,10 @@ exec --no-startup-id xset s noblank
 # configure tel keyboard support in i3wm
 exec_always --no-startup-id setxkbmap -layout us,in -variant ,tel -option grp:alt_shift_toggle
 
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 
 
@@ -87,13 +89,6 @@ bindsym $mod+o  exec --no-startup-id sh -c "autorandr -l 4kbenqonly && feh --bg-
 
 
 
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -249,7 +244,7 @@ client.background       #FFFFFF
 # finds out, if available)
 bar {
 
-  status_command i3status
+  status_command ~/.cargo/bin/i3status-rs
 
   colors {
     background #000000
