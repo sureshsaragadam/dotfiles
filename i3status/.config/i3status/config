@@ -51,3 +51,11 @@ memory {
 tztime local {
         format = "%Y-%m-%d %I:%M:%S:%p"
 }
+order += "keyboard_layout"
+
+keyboard_layout {
+    format = "%layout"
+}
+
+
+
