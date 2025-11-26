@@ -1,0 +1,52 @@
+# i3blocks configuration file
+#
+
+# Global properties
+separator=true
+separator_block_width=18
+# Query my default IP address only on startup
+# Query my default IP address only on startup
+
+
+# you can map mouse clicks via the script (BLOCK_BUTTON)
+[network]
+command=~/.config/i3blocks/network.sh
+interval=2
+
+
+[battery]
+command=/home/suresh/.config/i3blocks/battery.sh
+interval=once
+signal=11
+click-left = pkill -RTMIN+11 i3blocks
+
+[live-kbd]
+command=xkb-switch print %s | awk '{print toupper($0)}'
+interval=once
+signal=12
+color=#FFFF00
+
+[time]
+command=date '+%I:%M %p'
+interval=1
+color=#FFA500
+
+
+# Update time every 5 seconds
+[time]
+command=date '+%a %d-%m-%Y'
+interval=5
+color=#00FF87
+
+[volume]
+command=~/.config/i3blocks/volume.sh
+interval=once
+signal=10
+# Mouse actions
+# Left click → toggle mute
+# Scroll → volume up/down
+click-left=pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 i3blocks
+scroll-up=pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+10 i3blocks
+scroll-down=pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+10 i3blocks
+
+
