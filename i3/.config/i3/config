@@ -87,7 +87,8 @@ bindsym $mod+u exec thunar
 # Flameshot screenshot - need to install - flameshot - 
 bindsym Print exec flameshot gui
 # Fullscreen screenshot saved automatically
-bindsym $mod+Print exec flameshot full
+bindsym $mod+Print exec flameshot screen 
+bindsym $mod+Shift+Print exec flameshot full 
 
 # kill focused window
 bindsym $mod+Shift+q kill
