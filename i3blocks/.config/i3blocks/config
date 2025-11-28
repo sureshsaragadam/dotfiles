@@ -38,6 +38,16 @@ command=date '+%a %d-%m-%Y'
 interval=5
 color=#00FF87
 
+[mic]
+command=$HOME/.config/i3blocks/mic.sh
+interval=once
+signal=6
+
+[camera]
+command=$HOME/.config/i3blocks/cam.sh
+interval=once
+signal=7
+
 [volume]
 command=~/.config/i3blocks/volume.sh
 interval=once
