@@ -80,6 +80,7 @@ tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec kitty 
+bindsym $alt+Return split v;
 bindsym $mod+i exec firefox 
 bindsym $mod+u exec thunar
 

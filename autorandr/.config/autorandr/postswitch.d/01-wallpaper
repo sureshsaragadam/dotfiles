@@ -1,0 +1,2 @@
+#!/bin/bash
+feh --bg-scale ~/Pictures/WP/wp.jpg --bg-scale ~/Pictures/WP/wp.jpg 
