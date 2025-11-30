@@ -6,11 +6,10 @@
 -- be extended to other languages as well. That's why it's called
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 
-local sw = require("config.switch")
 return {
 	-- NOTE: Yes, you can install new plugins here!
 	"mfussenegger/nvim-dap",
-	enabled = sw.debug,
+	enabled = true,
 	-- NOTE: And you can specify dependencies as well
 	dependencies = {
 		-- Creates a beautiful debugger UI
@@ -90,7 +89,11 @@ return {
 
 			-- You can provide additional configuration to the handlers,
 			-- see mason-nvim-dap README for more information
-			handlers = {},
+			handlers = {
+				function(config)
+					require("mason-nvim-dap").default_setup(config)
+				end,
+			},
 
 			-- You'll need to check that you have the required things installed
 			-- online, please don't ask me how to install them :)

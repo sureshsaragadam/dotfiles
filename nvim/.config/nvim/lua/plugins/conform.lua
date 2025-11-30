@@ -1,7 +1,6 @@
-local sw = require("config.switch")
 return { -- Autoformat
 	"stevearc/conform.nvim",
-	enabled = sw.conform,
+	enabled = true,
 
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },

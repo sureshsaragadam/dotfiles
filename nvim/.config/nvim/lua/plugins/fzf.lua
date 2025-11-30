@@ -1,7 +1,6 @@
-local sw = require("config.switch")
 return {
 	"junegunn/fzf",
-	enabled = sw.fzf,
+	enabled = true,
 	build = "./install --bin",
 	"junegunn/fzf.vim",
 }

@@ -1,4 +1,3 @@
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = false
@@ -7,6 +6,11 @@ vim.o.relativenumber = true
 vim.o.showmode = false
 
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 
 vim.o.breakindent = true
 vim.o.undofile = true

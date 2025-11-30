@@ -1,8 +1,6 @@
-local sw = require("config.switch")
-
 return { -- Autocompletion
 	"saghen/blink.cmp",
-	enabled = sw.blinkcmp,
+	enabled = true,
 	event = "VimEnter",
 	version = "1.*",
 	dependencies = {

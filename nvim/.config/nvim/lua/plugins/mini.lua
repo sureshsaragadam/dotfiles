@@ -1,8 +1,6 @@
-local sw = require("config.switch")
-
 return { -- Collection of various small independent plugins/modules
 	"echasnovski/mini.nvim",
-	enabled = sw.mini,
+	enabled = true,
 	config = function()
 		-- Better Around/Inside textobjects
 		--

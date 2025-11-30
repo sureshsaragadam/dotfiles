@@ -1,10 +1,8 @@
-local sw = require("config.switch")
-
 return {
 
 	{ -- Linting
 		"mfussenegger/nvim-lint",
-		enabled = sw.lint,
+		enabled = false,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local lint = require("lint")

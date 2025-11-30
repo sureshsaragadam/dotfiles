@@ -1,9 +1,8 @@
-local sw = require("config.switch")
 -- Monokai Pro
 return {
 	{
 		"loctvl842/monokai-pro.nvim",
-		enabled = sw.theme,
+		enabled = true,
 		priority = 1000,
 		config = function()
 			require("monokai-pro").setup({

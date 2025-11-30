@@ -1,8 +1,6 @@
-local sw = require("config.switch")
-
 return {
 	"nvim-telescope/telescope.nvim",
-	enabled = sw.telescope,
+	enabled = true,
 	event = "VimEnter",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
