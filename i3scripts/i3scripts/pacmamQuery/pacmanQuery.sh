@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory to store backups
-BACKUP_DIR="$HOME/.config/backpac"
+BACKUP_DIR="$HOME/i3scripts/pacmanBackup/"
 mkdir -p "$BACKUP_DIR"
 
 # Timestamp for filenames
