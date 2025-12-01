@@ -1,57 +1,37 @@
 -- Neovim config
 
--- leaders must be FIRST
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-vim.g.have_nerd_font = true
+require("config.lazy")
 
--- [[ Install `lazy.nvim` plugin manager ]]
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 	if vim.v.shell_error ~= 0 then
-		error("Error cloning lazy.nvim:\n" .. out)
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
 	end
 end
+vim.opt.rtp:prepend(lazypath)
 
----@type vim.Option
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+vim.g.have_nerd_font = true
 
---
+-- Setup lazy.nvim
 require("lazy").setup({
-	{ import = "plugins" },
-	{ import = "lspm" },
-	{ import = "dapm" },
-}, {
-
-	rocks = {
-		enabled = false, -- disable LuaRocks fully
-		hererocks = false,
+	spec = {
+		-- import your plugins
+		{ import = "plugins" },
 	},
-	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘",
-			config = "🛠",
-			event = "📅",
-			ft = "📂",
-			init = "⚙",
-			keys = "🗝",
-			plugin = "🔌",
-			runtime = "💻",
-			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 ",
-		},
-	},
+	-- automatically check for plugin updates
+	checker = { enabled = true },
 })
-
--- LOAD PLAIN CONFIG FILES
-require("config.options")
-require("config.keymaps")
-require("config.autocmds")

@@ -1,17 +1,13 @@
--- lua/dap/cpp_gdb.lua
+-- lua/plugins/dap/cpp.lua
 
 return {
-	"mfussenegger/nvim-dap",
-
-	ft = { "c", "cpp" }, -- Only load for C/C++
-
-	config = function()
+	setup = function()
 		local dap = require("dap")
 
 		dap.adapters.gdb = {
 			type = "executable",
 			command = "gdb",
-			args = { "-i", "dap" }, -- new GDB DAP interface (GDB 13+)
+			args = { "-i", "dap" },
 		}
 
 		dap.configurations.cpp = {
