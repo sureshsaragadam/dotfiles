@@ -1,8 +1,9 @@
--- Neovim config -- Lap based
+-- Neovim config
 
-require("config.options")
-require("config.keymap")
-require("config.autocmd")
+-- leaders must be FIRST
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.g.have_nerd_font = true
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -21,7 +22,8 @@ rtp:prepend(lazypath)
 --
 require("lazy").setup({
 	{ import = "plugins" },
-	{ import = "lsp" },
+	{ import = "lspm" },
+	{ import = "dapm" },
 }, {
 
 	rocks = {
@@ -48,3 +50,8 @@ require("lazy").setup({
 		},
 	},
 })
+
+-- LOAD PLAIN CONFIG FILES
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
