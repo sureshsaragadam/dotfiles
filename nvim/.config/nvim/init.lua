@@ -1,6 +1,6 @@
 -- Neovim config
 
-require("config.lazy")
+require("config.init")
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
