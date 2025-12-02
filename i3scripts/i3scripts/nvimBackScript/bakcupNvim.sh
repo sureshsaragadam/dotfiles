@@ -4,7 +4,7 @@
 SRC="/home/suresh/dotfiles/nvim/.config/nvim"
 
 # Backup destination directory
-DEST="/home/suresh/i3scripts/nvim-backups/"
+DEST="/home/suresh/periodic-archives/nvim-archive/"
 
 # Create destination directory if it does not exist
 mkdir -p "$DEST"

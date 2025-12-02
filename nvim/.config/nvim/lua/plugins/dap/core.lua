@@ -21,7 +21,7 @@ return {
 		-- Mason DAP install list
 		require("mason-nvim-dap").setup({
 			ensure_installed = {
-				"delve", -- go
+				-- "delve", -- go
 				"python", -- debugpy
 				"cppdbg", -- C/C++
 			},
@@ -34,6 +34,6 @@ return {
 		})
 
 		-- Go adapter
-		require("dap-go").setup()
+		-- require("dap-go").setup()
 	end,
 }

@@ -6,16 +6,16 @@ return {
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
 			"jay-babu/mason-nvim-dap.nvim",
-			"leoluz/nvim-dap-go",
+			-- "leoluz/nvim-dap-go",
 			-- JS Debugger
-			{
-				"microsoft/vscode-js-debug",
-				build = "npm ci --legacy-peer-deps",
-			},
-			{
-				"mxsdev/nvim-dap-vscode-js",
-				dependencies = { "mfussenegger/nvim-dap" },
-			},
+			-- {
+			-- "microsoft/vscode-js-debug",
+			-- build = "npm ci --legacy-peer-deps",
+			-- },
+			-- {
+			-- "mxsdev/nvim-dap-vscode-js",
+			-- dependencies = { "mfussenegger/nvim-dap" },
+			-- },
 		},
 
 		config = function()
@@ -25,7 +25,7 @@ return {
 			require("plugins.dap.keymaps").setup()
 			-- load adapters
 			require("plugins.dap.cpp").setup()
-			require("plugins.dap.js").setup()
+			-- require("plugins.dap.js").setup()
 		end,
 	},
 }
