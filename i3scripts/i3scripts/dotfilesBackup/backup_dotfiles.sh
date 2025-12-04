@@ -2,7 +2,7 @@
 
 # Source and destination
 SRC="$HOME/dotfiles"
-DEST="$HOME/periodic-archives/dotfiles-archive/"
+DEST="$HOME/archives/dotfiles-archive/"
 
 # Create destination directory if not exists
 mkdir -p "$DEST"
