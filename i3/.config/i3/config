@@ -53,17 +53,7 @@ bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOUR
 
 exec --no-startup-id /home/suresh/.config/i3blocks/kbd-listner.sh
 
-for_window [class="Vlc"] floating enable
-for_window [class="Vlc" title="VLC media player"] floating enable
-for_window [class="Vlc"] move position center
-assign [class="Vlc"] 9
-assign [class="Vlc" title="VLC media player"] 9
 
-for_window [window_role="pop-up"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_type="utility"] floating enable
-for_window [class="Firefox" window_type="dialog"] floating enable
-for_window [class="Firefox"] floating enable
 
 
 # Brightness Up Down -- need to install xbacklight
@@ -78,10 +68,27 @@ floating_modifier $mod
 # move tiling windows via drag & drop by left-clicking into the title bar,
 tiling_drag modifier titlebar
 
+
+# Float and center every feh window
+# Only affect the window whose title is TELUGU_LAYOUT
+# The mode "kbdlayout" solved the open and lcose window mode in sync 
+
+for_window [title="KBDLAYOUT"] floating enable, border pixel 0, move position center
+
+# Press to show
+bindsym $mod+l exec --no-startup-id feh --title KBDLAYOUT ~/Pictures/tel/telugu_inscript.png; mode "kbdlayout"
+
+# Hold release to hide
+mode "kbdlayout" {
+    bindsym --release $mod+l exec i3-msg '[title="KBDLAYOUT"] kill'; mode "default"
+}
+
+
+
 # start a terminal
 bindsym $mod+Return exec kitty 
 bindsym $alt+Return split v;
-# bindsym $mod+i exec chromium 
+bindsym $mod+t exec chromium 
 bindsym $mod+i exec firefox-developer-edition 
 bindsym $mod+u exec thunar
 
