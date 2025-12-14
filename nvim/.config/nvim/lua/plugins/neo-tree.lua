@@ -3,7 +3,7 @@
 
 return {
 	"nvim-neo-tree/neo-tree.nvim",
-	enabled = true,
+	enabled = false,
 	version = "*",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -19,6 +19,7 @@ return {
 			window = {
 				mappings = {
 					["\\"] = "close_window",
+					["<CR>"] = "open_tabnew",
 				},
 			},
 		},
