@@ -74,20 +74,27 @@ tiling_drag modifier titlebar
 # The mode "kbdlayout" solved the open and lcose window mode in sync 
 
 for_window [title="KBDLAYOUT"] floating enable, border pixel 0, move position center
-
-# Press to show
+# Press to show desired keyboard layout png image -- you should have your keybaord layout image
 bindsym $mod+l exec --no-startup-id feh --title KBDLAYOUT ~/Pictures/tel/telugu_inscript.png; mode "kbdlayout"
-
-# Hold release to hide
+# Hold release to hide this will close the keyboard layout
 mode "kbdlayout" {
     bindsym --release $mod+l exec i3-msg '[title="KBDLAYOUT"] kill'; mode "default"
 }
 
 
 
+for_window [title="TELLAYOUT"] floating enable, border pixel 0, move position center
+# Press to show desired keyboard layout png image -- you should have your keybaord layout image
+bindsym $mod+k exec --no-startup-id feh --title TELLAYOUT ~/Pictures/tel/tel_inscript.png; mode "tellayout"
+# Hold release to hide this will close the keyboard layout
+mode "tellayout" {
+    bindsym --release $mod+k exec i3-msg '[title="TELLAYOUT"] kill'; mode "default"
+}
+
+
+
 # start a terminal
 bindsym $mod+Return exec kitty 
-bindsym $alt+Return split v;
 bindsym $mod+t exec chromium 
 bindsym $mod+i exec firefox-developer-edition 
 bindsym $mod+u exec thunar
@@ -146,13 +153,13 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $alt+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $alt+space focus mode_toggle
+bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $alt+a focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child

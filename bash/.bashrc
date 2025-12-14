@@ -18,6 +18,7 @@ eval -- "$(/usr/bin/starship init bash --print-full-init)"
 eval "$(dircolors)"
 #export LS_COLORS="$(vivid generate one-dark)"
 
-setxkbmap -layout "us,tel" -option "grp:win_space_toggle"
+setxkbmap -layout "us,tel" -option "grp:alt_space_toggle"
 
 
+export PATH=$HOME/.local/bin:$PATH
