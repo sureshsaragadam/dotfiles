@@ -7,7 +7,7 @@ return {
 	jsonls = {},
 
 	-- Markdown LSP
-	marksman = {},
+	-- marksman = {},
 
 	lua_ls = {
 		settings = {

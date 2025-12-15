@@ -1,44 +1,79 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
+	{
+		-- 🌳 Tree-sitter core
+		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate",
 
-	enabled = true,
-	lazy = false,
+		main = "nvim-treesitter.configs",
 
-	build = ":TSUpdate",
-
-	event = { "BufReadPost", "BufNewFile" },
-
-	config = function()
-		require("nvim-treesitter.config").setup({
+		opts = {
 			ensure_installed = {
 				"bash",
 				"c",
 				"cpp",
+				"lua",
 				"javascript",
-				"python",
-				"diff",
+				"typescript",
+				"tsx",
+				"json",
 				"html",
 				"css",
-				"lua",
-				"luadoc",
 				"markdown",
 				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
 			},
 
 			auto_install = true,
 
 			highlight = {
 				enable = true,
-				additional_vim_regex_highlighting = { "ruby" },
 			},
 
 			indent = {
 				enable = true,
-				disable = { "ruby" },
 			},
-		})
-	end,
+
+			-- 🌳 Textobjects (official defaults)
+			textobjects = {
+				select = {
+					enable = true,
+					lookahead = true,
+					keymaps = {
+						["af"] = "@function.outer",
+						["if"] = "@function.inner",
+						["ac"] = "@class.outer",
+						["ic"] = "@class.inner",
+					},
+				},
+
+				move = {
+					enable = true,
+					set_jumps = true,
+					goto_next_start = {
+						["]m"] = "@function.outer",
+						["]c"] = "@class.outer",
+					},
+					goto_next_end = {
+						["]M"] = "@function.outer",
+						["]C"] = "@class.outer",
+					},
+					goto_previous_start = {
+						["[m"] = "@function.outer",
+						["[c"] = "@class.outer",
+					},
+					goto_previous_end = {
+						["[M"] = "@function.outer",
+						["[C"] = "@class.outer",
+					},
+				},
+			},
+		},
+
+		config = function()
+			-- Tree-sitter folding (official & stable)
+			vim.opt.foldmethod = "expr"
+			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			vim.opt.foldlevel = 99
+		end,
+	},
 }
