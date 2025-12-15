@@ -6,6 +6,9 @@ return {
 	cssls = {},
 	jsonls = {},
 
+	-- Markdown LSP
+	marksman = {},
+
 	lua_ls = {
 		settings = {
 			Lua = {

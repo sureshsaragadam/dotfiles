@@ -36,12 +36,23 @@ return { -- Autoformat
 			python = { "isort", "black" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
-			css = { "prettierd", "prettier", stop_after_first = true },
-			html = { "prettierd", "prettier", stop_after_first = true },
-			json = { "prettierd", "prettier", stop_after_first = true },
+			css = { "prettier", stop_after_first = true },
+			html = { "prettier", stop_after_first = true },
+			json = { "prettier", stop_after_first = true },
 			--
 			-- You can use 'stop_after_first' to run the first available formatter from the list
-			javascript = { "prettierd", "prettier", stop_after_first = true },
+			javascript = { "prettier", stop_after_first = true },
+		},
+		formatters = {
+			prettier = {
+				prepend_args = {
+					"--use-tabs",
+					"--print-width",
+					"1000", -- keeps small objects on one line
+					"--tab-width",
+					"1",
+				},
+			},
 		},
 	},
 }
