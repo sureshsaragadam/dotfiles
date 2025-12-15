@@ -27,3 +27,14 @@ vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = "Move to upper window" })
 vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Move to right window" })
 
 vim.keymap.set("n", "<leader>yy", 'ggVG"+y', { silent = true, desc = "Copy entire file" })
+
+-- keymap for formatt use conform plugin
+vim.keymap.set(
+  { "n", "v" },
+  "<leader>f",
+  function()
+    require("conform").format({ async = true })
+  end,
+  { desc = "Format buffer" }
+)
+

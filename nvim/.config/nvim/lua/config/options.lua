@@ -29,7 +29,3 @@ vim.opt.scrolloff = 10
 
 -- See `:help 'confirm'`
 vim.opt.confirm = true
-
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldlevel = 99
