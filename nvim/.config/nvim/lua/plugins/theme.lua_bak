@@ -5,6 +5,7 @@ return {
 		require("monokai-v2").setup()
 		vim.cmd("colorscheme monokai-v2")
 
+		-- monokai-v2 reapplies highlights, so hook into ColorScheme
 		vim.api.nvim_create_autocmd("ColorScheme", {
 			pattern = "monokai-v2",
 			callback = function()
@@ -17,16 +18,14 @@ return {
 				vim.api.nvim_set_hl(0, "StlFileIcon", { link = "Special" })
 
 				------------------------------------------------------------------
-				-- 2) Clear ALL competing backgrounds
+				-- 2) Remove ONLY background, keep foreground
 				------------------------------------------------------------------
 				local function clear_bg(group)
-					local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
-					if ok and hl then
-						vim.api.nvim_set_hl(0, group, {
-							fg = hl.fg,
-							bg = nil,
-						})
-					end
+					local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+					vim.api.nvim_set_hl(0, group, {
+						fg = hl.fg,
+						bg = nil,
+					})
 				end
 
 				-- Statusline-related groups
@@ -35,13 +34,26 @@ return {
 				clear_bg("StlLSP")
 				clear_bg("StlFileIcon")
 
-				-- Diff (git core)
-				for _, g in ipairs({ "DiffAdd", "DiffChange", "DiffDelete" }) do
-					clear_bg(g)
+				------------------------------------------------------------------
+				-- 3) Diff groups (optional, but keeps consistency)
+				------------------------------------------------------------------
+				for _, group in ipairs({
+					"DiffAdd",
+					"DiffChange",
+					"DiffDelete",
+				}) do
+					local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+					vim.api.nvim_set_hl(0, group, {
+						fg = hl.fg,
+						bg = nil,
+					})
 				end
 
-				-- GitSigns (prevents git bg leakage)
-				for _, g in ipairs({
+				------------------------------------------------------------------
+				-- 4) ⭐ GitSigns groups (THIS WAS MISSING) ⭐
+				--    Required for true transparency in statusline
+				------------------------------------------------------------------
+				for _, group in ipairs({
 					"GitSignsAdd",
 					"GitSignsChange",
 					"GitSignsDelete",
@@ -49,23 +61,15 @@ return {
 					"GitSignsChangeInline",
 					"GitSignsDeleteInline",
 				}) do
-					clear_bg(g)
+					local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+					if ok and hl then
+						vim.api.nvim_set_hl(0, group, {
+							fg = hl.fg,
+							bg = nil,
+						})
+					end
 				end
-
-				------------------------------------------------------------------
-				-- 3) Apply ONE fixed background to entire statusline
-				------------------------------------------------------------------
-				vim.api.nvim_set_hl(0, "StatusLine", {
-					bg = "#1a1a1a",
-				})
-
-				vim.api.nvim_set_hl(0, "StatusLineNC", {
-					bg = "#1a1a1a",
-				})
 			end,
 		})
-
-		-- Ensure it runs once on startup
-		vim.api.nvim_exec_autocmds("ColorScheme", { pattern = "monokai-v2" })
 	end,
 }

@@ -43,6 +43,13 @@ function _G.stl_filetype()
 	return ft ~= "" and ft:upper() or "NOFT"
 end
 
+-- GIT BRANCH highlight (icon + name)
+vim.api.nvim_set_hl(0, "StlGitBranch", {
+	fg = vim.api.nvim_get_hl(0, { name = "Identifier", link = false }).fg,
+	bg = nil,
+	bold = true,
+})
+
 -- GIT BRANCH
 function _G.stl_git()
 	return vim.b.gitsigns_head and (" " .. vim.b.gitsigns_head) or ""
@@ -177,7 +184,7 @@ vim.opt.statusline = table.concat({
 	"%{v:lua.stl_filename()}",
 	" %m ",
 	"[%{v:lua.stl_filetype()}] ",
-	"%#DiffChange#%{v:lua.stl_git()}%#StatusLine# ",
+	"%#StlGitBranch#%{v:lua.stl_git()}%#StatusLine# ",
 	"%#DiffAdd#%{v:lua.stl_git_diff()}%#StatusLine# ",
 	"%=",
 	"%#DiagnosticError#%{v:lua.stl_diag()}%#StatusLine# ",
