@@ -7,15 +7,13 @@ if not ok_devicons then
 end
 
 --------------------------------------------------
--- Global statusline (single bar for all windows)
+-- Global statusline (single bar)
 --------------------------------------------------
 vim.opt.laststatus = 3
 
 --------------------------------------------------
--- Providers (GLOBAL for statusline)
+-- MODE (text)
 --------------------------------------------------
-
--- MODE
 function _G.stl_mode()
 	local m = vim.fn.mode()
 	local map = {
@@ -31,31 +29,94 @@ function _G.stl_mode()
 	return map[m] or m
 end
 
+--------------------------------------------------
+-- MODE COLORS (TEXT ONLY)
+--------------------------------------------------
+local function set_mode_hl(mode)
+	local map = {
+		n = "Normal", -- white
+		i = "WarningMsg", -- yellow
+		c = "String", -- green
+		v = "Constant", -- orange
+		V = "Constant", -- orange
+		["\22"] = "Special", -- dark orange
+		R = "ErrorMsg", -- red
+		t = "String", -- green
+	}
+
+	vim.api.nvim_set_hl(0, "StlMode", {
+		link = map[mode] or "Normal",
+	})
+end
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+	callback = function()
+		set_mode_hl(vim.fn.mode())
+	end,
+})
+
+set_mode_hl(vim.fn.mode())
+
+--------------------------------------------------
 -- FILENAME
+--------------------------------------------------
 function _G.stl_filename()
 	local name = vim.fn.expand("%:t")
 	return name ~= "" and name or "[No Name]"
 end
 
--- FILETYPE
+--------------------------------------------------
+-- FILETYPE (TEXT ONLY, ALWAYS WHITE)
+--------------------------------------------------
 function _G.stl_filetype()
 	local ft = vim.bo.filetype
 	return ft ~= "" and ft:upper() or "NOFT"
 end
 
--- GIT BRANCH highlight (icon + name)
-vim.api.nvim_set_hl(0, "StlGitBranch", {
-	fg = vim.api.nvim_get_hl(0, { name = "Identifier", link = false }).fg,
+vim.api.nvim_set_hl(0, "StlFileType", {
+	fg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg,
 	bg = nil,
 	bold = true,
 })
 
--- GIT BRANCH
+--------------------------------------------------
+-- FILE ICON (ICON COLOR ONLY)
+--------------------------------------------------
+function _G.stl_file_icon()
+	if not devicons or not devicons.get_icon_color then
+		return ""
+	end
+
+	local fname = vim.fn.expand("%:t")
+	local ext = vim.fn.expand("%:e")
+
+	local icon, color = devicons.get_icon_color(fname, ext)
+	if not icon then
+		return ""
+	end
+
+	vim.api.nvim_set_hl(0, "StlFileIcon", {
+		fg = color,
+		bg = nil,
+	})
+
+	return icon
+end
+
+--------------------------------------------------
+-- GIT BRANCH (DARK ORANGE)
+--------------------------------------------------
+vim.api.nvim_set_hl(0, "StlGitBranch", {
+	link = "Special", -- dark orange
+})
+
 function _G.stl_git()
 	return vim.b.gitsigns_head and (" " .. vim.b.gitsigns_head) or ""
 end
 
--- GIT DIFF
+--------------------------------------------------
+-- GIT DIFF (+ ~ -)
+--------------------------------------------------
 function _G.stl_git_diff()
 	local gsd = vim.b.gitsigns_status_dict
 	if not gsd then
@@ -76,7 +137,9 @@ function _G.stl_git_diff()
 	return table.concat(parts, " ")
 end
 
--- DIAGNOSTICS (plain text only)
+--------------------------------------------------
+-- DIAGNOSTICS (TEXT ONLY)
+--------------------------------------------------
 function _G.stl_diag()
 	local d = vim.diagnostic
 	local out = {}
@@ -95,29 +158,7 @@ function _G.stl_diag()
 end
 
 --------------------------------------------------
--- FILE ICON (PLAIN TEXT RETURN)
---------------------------------------------------
-function _G.stl_file_icon()
-	if not devicons or not devicons.get_icon_color then
-		return ""
-	end
-
-	local fname = vim.fn.expand("%:t")
-	local ext = vim.fn.expand("%:e")
-
-	local icon, color = devicons.get_icon_color(fname, ext)
-	if not icon then
-		return ""
-	end
-
-	-- define highlight, but DO NOT return %#...#
-	vim.api.nvim_set_hl(0, "StlFileIcon", { fg = color })
-
-	return icon
-end
-
---------------------------------------------------
--- LSP ICON + NAME (PLAIN TEXT RETURN)
+-- LSP ICON + NAME (ICON COLOR DRIVES TEXT COLOR)
 --------------------------------------------------
 local lsp_icons = {
 	lua_ls = { "", "#51a0cf" },
@@ -127,6 +168,7 @@ local lsp_icons = {
 	tsserver = { "", "#3178c6" },
 	pyright = { "", "#3572A5" },
 	clangd = { "", "#6d8086" },
+	rust_analyzer = { "", "#dea584" },
 }
 
 function _G.stl_lsp_icon()
@@ -142,48 +184,26 @@ function _G.stl_lsp_icon()
 		icon, color = unpack(lsp_icons[c.name])
 	end
 
-	-- define highlight safely
 	vim.api.nvim_set_hl(0, "StlLSP", {
 		fg = color or vim.api.nvim_get_hl(0, { name = "DiagnosticInfo" }).fg,
+		bg = nil,
 		bold = true,
 	})
 
 	return icon .. " " .. c.name
 end
 
-local function set_mode_hl(mode)
-	local map = {
-		n = "NormalFloat",
-		i = "String",
-		v = "Keyword",
-		V = "Keyword",
-		["\22"] = "Keyword",
-		c = "Function",
-		R = "ErrorMsg",
-	}
-
-	vim.api.nvim_set_hl(0, "StlMode", { link = map[mode] or "NormalFloat" })
-end
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-	callback = function()
-		set_mode_hl(vim.fn.mode())
-	end,
-})
-
-set_mode_hl(vim.fn.mode())
-
 --------------------------------------------------
--- STATUSLINE LAYOUT (ALL HIGHLIGHTS HERE)
+-- STATUSLINE LAYOUT
 --------------------------------------------------
 vim.opt.statusline = table.concat({
 	" ",
 	"%#StlMode#%{v:lua.stl_mode()}%#StatusLine#",
 	" | ",
 	"%#StlFileIcon#%{v:lua.stl_file_icon()}%#StatusLine# ",
-	"%{v:lua.stl_filename()}",
-	" %m ",
-	"[%{v:lua.stl_filetype()}] ",
+	"%{v:lua.stl_filename()} ",
+	"%m ",
+	"%#StlFileType#[%{v:lua.stl_filetype()}]%#StatusLine# ",
 	"%#StlGitBranch#%{v:lua.stl_git()}%#StatusLine# ",
 	"%#DiffAdd#%{v:lua.stl_git_diff()}%#StatusLine# ",
 	"%=",
