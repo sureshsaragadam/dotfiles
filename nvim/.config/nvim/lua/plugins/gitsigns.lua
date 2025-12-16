@@ -1,13 +1,19 @@
 return {
-	"lewis6991/gitsigns.nvim",
-	enabled = true,
-	opts = {
-		signs = {
-			add = { text = "+" },
-			change = { text = "~" },
-			delete = { text = "_" },
-			topdelete = { text = "‾" },
-			changedelete = { text = "~" },
-		},
-	},
+  "lewis6991/gitsigns.nvim",
+  enable = true,
+  event = { "BufReadPre", "BufNewFile" },
+  opts = {
+    signs = {
+      add          = { text = "+" },
+      change       = { text = "~" },
+      delete       = { text = "_" },
+      topdelete    = { text = "‾" },
+      changedelete = { text = "~" },
+    },
+
+    signcolumn = true,
+    attach_to_untracked = true,
+    current_line_blame = false,
+  },
 }
+

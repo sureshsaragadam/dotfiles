@@ -1,3 +1,4 @@
+-- lua_ls.lua
 return {
   settings = {
     Lua = {
@@ -11,7 +12,10 @@ return {
 
       workspace = {
         checkThirdParty = false,
-        library = vim.api.nvim_get_runtime_file("", true),
+        library = {
+          vim.env.VIMRUNTIME,
+          vim.fn.stdpath("config"),
+        },
       },
 
       completion = {
@@ -19,6 +23,10 @@ return {
       },
 
       hint = {
+        enable = true,
+      },
+
+      format = {
         enable = true,
       },
     },

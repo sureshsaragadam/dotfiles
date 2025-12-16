@@ -1,0 +1,93 @@
+--------------------------------------------------
+-- Global statusline (single bar for all windows)
+--------------------------------------------------
+vim.opt.laststatus = 3
+
+--------------------------------------------------
+-- Providers (GLOBAL for statusline)
+--------------------------------------------------
+
+-- MODE (readable names)
+function _G.stl_mode()
+  local m = vim.fn.mode()
+  local map = {
+    n  = "NORMAL",
+    i  = "INSERT",
+    v  = "VISUAL",
+    V  = "V-LINE",
+    ["\22"] = "V-BLOCK",
+    c  = "COMMAND",
+    R  = "REPLACE",
+    t  = "TERMINAL",
+  }
+  return map[m] or m
+end
+
+-- FILENAME (tail only)
+function _G.stl_filename()
+  local name = vim.fn.expand("%:t")
+  return name ~= "" and name or "[No Name]"
+end
+
+-- FILETYPE
+function _G.stl_filetype()
+  local ft = vim.bo.filetype
+  return ft ~= "" and ft:upper() or "NOFT"
+end
+
+-- GIT BRANCH (via gitsigns)
+function _G.stl_git()
+  return vim.b.gitsigns_head and (" " .. vim.b.gitsigns_head) or ""
+end
+
+-- LSP IN USE (server names)
+function _G.stl_lsp()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if #clients == 0 then return "" end
+
+  local names = {}
+  for _, c in ipairs(clients) do
+    table.insert(names, c.name)
+  end
+  return "LSP:" .. table.concat(names, ",")
+end
+
+-- DIAGNOSTICS (Errors + Warnings)
+function _G.stl_diag()
+  local e = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local w = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+
+  local out = {}
+  if e > 0 then table.insert(out, "E" .. e) end
+  if w > 0 then table.insert(out, "W" .. w) end
+  return table.concat(out, " ")
+end
+
+--------------------------------------------------
+-- STATUSLINE LAYOUT
+--------------------------------------------------
+
+vim.opt.statusline = table.concat({
+  " ",
+  "%{v:lua.stl_mode()}",
+  " | ",
+  "%{v:lua.stl_filename()}",
+  " %m",
+  " %#Identifier#%{v:lua.stl_git()}%#StatusLine#",
+  " [", "%{v:lua.stl_filetype()}", "]",
+  "%=",
+  " %{v:lua.stl_diag()}",
+  " %#Type#%{v:lua.stl_lsp()}%#StatusLine#",
+  " %l:%c ",
+})
+
+--------------------------------------------------
+-- TRANSPARENCY (ALL WINDOWS)
+--------------------------------------------------
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "StatusLine",   { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+  end,
+})
+

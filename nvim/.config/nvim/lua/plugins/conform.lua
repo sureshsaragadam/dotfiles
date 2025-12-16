@@ -8,6 +8,7 @@ return {
 			typescript = { "prettier" },
 			typescriptreact = { "prettier" },
 
+			lua = { "stylua" },
 			html = { "prettier" },
 			css = { "prettier" },
 			json = { "prettier" },
@@ -18,7 +19,7 @@ return {
 		-- Neovim-style formatting (safe & predictable)
 		format_on_save = {
 			timeout_ms = 3000,
-			lsp_fallback = false,
+			lsp_fallback = true,
 		},
 	},
 }

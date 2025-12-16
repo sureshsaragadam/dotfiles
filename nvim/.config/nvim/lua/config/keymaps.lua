@@ -9,7 +9,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 vim.keymap.set("n", "\\", "<cmd>Oil<CR>", { desc = "Open parent directory (Oil)" })
-
 ----------------------------------------------------------------------
 -- Window navigation with Ctrl + hjkl
 ----------------------------------------------------------------------
@@ -29,12 +28,4 @@ vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Move to right window" })
 vim.keymap.set("n", "<leader>yy", 'ggVG"+y', { silent = true, desc = "Copy entire file" })
 
 -- keymap for formatt use conform plugin
-vim.keymap.set(
-  { "n", "v" },
-  "<leader>f",
-  function()
-    require("conform").format({ async = true })
-  end,
-  { desc = "Format buffer" }
-)
 
